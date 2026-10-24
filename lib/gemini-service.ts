@@ -26,7 +26,7 @@ export async function analyzeResumeWithAI({
   section,
 }: AnalyzeResumeParams): Promise<AtsScoreResult> {
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-pro-latest" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
     const resumeText = `
       Name: ${resumeData.personal.fullName}

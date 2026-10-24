@@ -202,7 +202,7 @@ Return the response as pure JSON only — do not wrap it in \`\`\`json or \`\`\`
       setProgress(75);
 
       // Step 1: Generate the Language using AI Model
-      const model = genAI.getGenerativeModel({ model: "gemini-pro-latest" });
+      const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
       const prompt = generatePrompt();
       const result = await model.generateContent(prompt);
       const response = await result.response;
