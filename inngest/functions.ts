@@ -10,8 +10,7 @@ import { eq } from "drizzle-orm";
 import { flashCardOuline, notesOutline } from "@/configs/AiModel";
 
 export const helloWorld = inngest.createFunction(
-  { id: "hello-world" },
-  { event: "test/hello.world" },
+  { id: "hello-world", triggers: [{ event: "test/hello.world" }] },
   async ({ event, step }) => {
     await step.sleep("wait-a-moment", "1s");
     return { message: `Hello ${event.data.email}!` };
@@ -19,8 +18,7 @@ export const helloWorld = inngest.createFunction(
 );
 
 export const CreateNewUser = inngest.createFunction(
-  { id: "create-user" },
-  { event: "user.create" },
+  { id: "create-user", triggers: [{ event: "user.create" }] },
   async ({ event, step }) => {
     const user = event.data?.user;
     const userEmail = user?.primaryEmailAddress?.emailAddress || user?.email;
@@ -64,8 +62,7 @@ export const CreateNewUser = inngest.createFunction(
 );
 
 export const GenerateNotes = inngest.createFunction(
-  { id: "generate-notes" },
-  { event: "notes.generate" },
+  { id: "generate-notes", triggers: [{ event: "notes.generate" }] },
   async ({ event, step }) => {
     const { course } = event.data;
     const courseId = course?.courseId;
@@ -150,8 +147,10 @@ The final output must be visually appealing, accessible, and academically suitab
 );
 
 export const GenerateStudyTypeContent = inngest.createFunction(
-  { id: "generate-study-type-content" },
-  { event: "study.type.content.generate" },
+  {
+    id: "generate-study-type-content",
+    triggers: [{ event: "study.type.content.generate" }],
+  },
   async ({ event, step }) => {
     const { studyType, prompt, courseId, recordId } = event.data;
 
