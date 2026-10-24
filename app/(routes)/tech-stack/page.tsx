@@ -24,7 +24,12 @@ import { BookPreview } from "./components/bookepreview";
 
 const Confetti = dynamic(() => import('react-confetti'), { ssr: false });
 
-const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_API_KEY || "");
+const geminiApiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
+if (!geminiApiKey) {
+  throw new Error("NEXT_PUBLIC_GEMINI_API_KEY is required");
+}
+
+const genAI = new GoogleGenerativeAI(geminiApiKey);
 
 const languageTypes = [
   { value: "c", label: "C" },
@@ -197,7 +202,7 @@ Return the response as pure JSON only — do not wrap it in \`\`\`json or \`\`\`
       setProgress(75);
 
       // Step 1: Generate the Language using AI Model
-      const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-001" });
+      const model = genAI.getGenerativeModel({ model: "gemini-pro-latest" });
       const prompt = generatePrompt();
       const result = await model.generateContent(prompt);
       const response = await result.response;

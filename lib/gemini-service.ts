@@ -3,10 +3,12 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { ResumeData, AtsScoreResult } from "./types";
 
-const genAI = new GoogleGenerativeAI(
-  process.env.NEXT_PUBLIC_GEMINI_API_KEY ||
-    "AIzaSyCqxBA7P8F0P58BhUf0KZGHPXHG1ReheqQ"
-);
+const geminiApiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
+if (!geminiApiKey) {
+  throw new Error("NEXT_PUBLIC_GEMINI_API_KEY is required");
+}
+
+const genAI = new GoogleGenerativeAI(geminiApiKey);
 
 interface AnalyzeResumeParams {
   resumeData: ResumeData;
@@ -24,7 +26,7 @@ export async function analyzeResumeWithAI({
   section,
 }: AnalyzeResumeParams): Promise<AtsScoreResult> {
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-pro-latest" });
 
     const resumeText = `
       Name: ${resumeData.personal.fullName}
